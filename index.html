@@ -1190,23 +1190,43 @@
 </div>
 
 <script>
+// === AUDIO ENGINE ===
+const audio = new Audio();
+audio.crossOrigin = 'anonymous';
+audio.preload = 'none';
+
 // === STATE ===
 const STATIONS = [
-  { name: 'Cadena SER', emoji: '🎙️', color: '#e8a87c', cat: 'noticias', freq: '105.4', prog: 'El Larguero' },
-  { name: 'Los 40', emoji: '🎵', color: '#7eb8f7', cat: 'musica', freq: '93.9', prog: 'Los 40 en Directo' },
-  { name: 'Rock FM', emoji: '🤘', color: '#f4756a', cat: 'musica', freq: '93.6', prog: 'Rock non Stop' },
-  { name: 'COPE', emoji: '⚡', color: '#b39ddb', cat: 'noticias', freq: '100.0', prog: 'La Noche de COPE' },
-  { name: 'Europa FM', emoji: '🎧', color: '#6fcf97', cat: 'musica', freq: '101.5', prog: 'Europa FM Mix' },
-  { name: 'Kiss FM', emoji: '💋', color: '#f4756a', cat: 'musica', freq: '100.7', prog: 'Kiss Mix' },
-  { name: 'RNE Radio 1', emoji: '📡', color: '#a09b93', cat: 'noticias', freq: '88.2', prog: 'Noticias 24h' },
-  { name: 'RNE Radio 3', emoji: '🎸', color: '#7eb8f7', cat: 'musica', freq: '91.5', prog: 'Discópolis' },
-  { name: 'Radio Marca', emoji: '⚽', color: '#e8a87c', cat: 'deporte', freq: '105.7', prog: 'Marcador' },
-  { name: 'Onda Cero', emoji: '🌊', color: '#b39ddb', cat: 'noticias', freq: '98.0', prog: 'La Brújula' },
-  { name: 'Cadena Dial', emoji: '💿', color: '#6fcf97', cat: 'musica', freq: '89.0', prog: 'Dial en Español' },
-  { name: 'M80 Radio', emoji: '🎷', color: '#f0c99a', cat: 'musica', freq: '88.0', prog: 'Clásicos M80' },
-  { name: 'Melodía FM', emoji: '🎶', color: '#b39ddb', cat: 'musica', freq: '104.9', prog: 'Melodías del Mundo' },
-  { name: 'Radio Intereconomía', emoji: '📊', color: '#a09b93', cat: 'noticias', freq: '103.9', prog: 'La Mañana' },
-  { name: 'Hit FM', emoji: '🔥', color: '#f4756a', cat: 'musica', freq: '99.8', prog: 'Hot Hits' },
+  { name: 'Cadena SER',        emoji: '🎙️', color: '#e8a87c', cat: 'noticias', freq: '105.4', prog: 'En directo',
+    stream: 'https://playerservices.streamtheworld.com/api/livestream-redirect/CADENASER.mp3' },
+  { name: 'Los 40',            emoji: '🎵', color: '#7eb8f7', cat: 'musica',   freq: '93.9',  prog: 'En directo',
+    stream: 'https://playerservices.streamtheworld.com/api/livestream-redirect/LOS40.mp3' },
+  { name: 'Rock FM',           emoji: '🤘', color: '#f4756a', cat: 'musica',   freq: '93.6',  prog: 'En directo',
+    stream: 'https://playerservices.streamtheworld.com/api/livestream-redirect/ROCKFM.mp3' },
+  { name: 'COPE',              emoji: '⚡', color: '#b39ddb', cat: 'noticias', freq: '100.0', prog: 'En directo',
+    stream: 'https://cope.stream.flumotion.com/cope/main/icecast.audio' },
+  { name: 'Europa FM',         emoji: '🎧', color: '#6fcf97', cat: 'musica',   freq: '101.5', prog: 'En directo',
+    stream: 'https://playerservices.streamtheworld.com/api/livestream-redirect/EUROPAFM.mp3' },
+  { name: 'Kiss FM',           emoji: '💋', color: '#f4756a', cat: 'musica',   freq: '100.7', prog: 'En directo',
+    stream: 'https://kissfm.stream.flumotion.com/kissfm/main/icecast.audio' },
+  { name: 'RNE Radio 1',       emoji: '📡', color: '#a09b93', cat: 'noticias', freq: '88.2',  prog: 'En directo',
+    stream: 'https://rne.stream.rtve.es/rne/r1/live/master.m3u8' },
+  { name: 'RNE Radio 3',       emoji: '🎸', color: '#7eb8f7', cat: 'musica',   freq: '91.5',  prog: 'En directo',
+    stream: 'https://rne.stream.rtve.es/rne/r3/live/master.m3u8' },
+  { name: 'Radio Marca',       emoji: '⚽', color: '#e8a87c', cat: 'deporte',  freq: '105.7', prog: 'En directo',
+    stream: 'https://radiomarca.stream.flumotion.com/radiomarca/main/icecast.audio' },
+  { name: 'Onda Cero',         emoji: '🌊', color: '#b39ddb', cat: 'noticias', freq: '98.0',  prog: 'En directo',
+    stream: 'https://playerservices.streamtheworld.com/api/livestream-redirect/ONDACERO.mp3' },
+  { name: 'Cadena Dial',       emoji: '💿', color: '#6fcf97', cat: 'musica',   freq: '89.0',  prog: 'En directo',
+    stream: 'https://playerservices.streamtheworld.com/api/livestream-redirect/CADENADIAL.mp3' },
+  { name: 'M80 Radio',         emoji: '🎷', color: '#f0c99a', cat: 'musica',   freq: '88.0',  prog: 'En directo',
+    stream: 'https://playerservices.streamtheworld.com/api/livestream-redirect/M80RADIO.mp3' },
+  { name: 'Melodía FM',        emoji: '🎶', color: '#b39ddb', cat: 'musica',   freq: '104.9', prog: 'En directo',
+    stream: 'https://playerservices.streamtheworld.com/api/livestream-redirect/MELODIAFM.mp3' },
+  { name: 'Radio Intereconomía',emoji: '📊', color: '#a09b93', cat: 'noticias', freq: '103.9', prog: 'En directo',
+    stream: 'https://5493.live.streamtheworld.com/INTERECONOMIA_SC' },
+  { name: 'Hit FM',            emoji: '🔥', color: '#f4756a', cat: 'musica',   freq: '99.8',  prog: 'En directo',
+    stream: 'https://hitfm.stream.flumotion.com/hitfm/main/icecast.audio' },
 ];
 
 let state = {
@@ -1280,19 +1300,60 @@ function setNav(name) {
 }
 
 // === PLAY/STOP ===
-function togglePlay() {
-  state.playing = !state.playing;
+function setPlayingUI(playing) {
   const btn = document.getElementById('playBtn');
   const island = document.getElementById('dynamicIsland');
   const diName = document.getElementById('diName');
   const vis = document.getElementById('visualizer');
-
-  btn.textContent = state.playing ? '⏸' : '▶';
-  island.classList.toggle('playing', state.playing);
-  diName.textContent = state.playing ? STATIONS[state.currentIdx].name : '—';
-
-  vis.querySelectorAll('.vis-bar').forEach(b => b.classList.toggle('active', state.playing));
+  btn.textContent = playing ? '⏸' : '▶';
+  island.classList.toggle('playing', playing);
+  diName.textContent = playing ? STATIONS[state.currentIdx].name : '—';
+  vis.querySelectorAll('.vis-bar').forEach(b => b.classList.toggle('active', playing));
 }
+
+function togglePlay() {
+  if (state.playing) {
+    audio.pause();
+    audio.src = '';
+    state.playing = false;
+    setPlayingUI(false);
+  } else {
+    startStream(state.currentIdx);
+  }
+}
+
+function startStream(idx) {
+  const st = STATIONS[idx];
+  showToast('⏳ Conectando con ' + st.name + '…');
+  setPlayingUI(false);
+  document.getElementById('playBtn').textContent = '⌛';
+  audio.pause();
+  audio.src = st.stream;
+  audio.load();
+  audio.play()
+    .then(() => {
+      state.playing = true;
+      state.currentIdx = idx;
+      setPlayingUI(true);
+      showToast('▶ ' + st.name);
+    })
+    .catch(err => {
+      state.playing = false;
+      setPlayingUI(false);
+      document.getElementById('playBtn').textContent = '▶';
+      showToast('⚠ No se pudo conectar. Intenta otra emisora.');
+      console.warn('Stream error:', err);
+    });
+}
+
+audio.addEventListener('error', () => {
+  if (state.playing) {
+    state.playing = false;
+    setPlayingUI(false);
+    showToast('⚠ Stream interrumpido. Reconectando…');
+    setTimeout(() => startStream(state.currentIdx), 3000);
+  }
+});
 
 function playStation(idx) {
   state.currentIdx = idx;
@@ -1302,16 +1363,9 @@ function playStation(idx) {
   document.getElementById('stationArtwork').textContent = st.emoji;
   document.getElementById('stationArtwork').style.background =
     `linear-gradient(135deg, ${st.color}aa, #1a1a2ecc)`;
-
-  if(!state.playing) togglePlay();
-  else {
-    document.getElementById('dynamicIsland').classList.add('playing');
-    document.getElementById('diName').textContent = st.name;
-  }
-
+  startStream(idx);
   renderSlots();
   renderFavorites();
-  showToast('▶ ' + st.name);
 }
 
 function prevStation() {
@@ -1330,6 +1384,7 @@ function setVolume(e) {
   const rect = el.getBoundingClientRect();
   let pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
   state.volume = Math.round(pct * 100);
+  audio.volume = pct;
   document.getElementById('volFill').style.width = state.volume + '%';
   document.getElementById('volThumb').style.left = 'calc(' + state.volume + '% - 8px)';
 }
@@ -1578,18 +1633,20 @@ function showToast(msg) {
 }
 
 // === INIT ===
+audio.volume = state.volume / 100;
 renderSlots();
 renderFavorites();
 renderAlarmStationSelector();
 renderPrograms();
 renderStations();
-
-// Start "playing" SER by default after a beat
-setTimeout(() => {
-  playStation(0);
-  document.getElementById('alarmHour').textContent = String(state.alarmH).padStart(2,'0');
-  document.getElementById('alarmMin').textContent = String(state.alarmM).padStart(2,'0');
-}, 800);
+// Set initial station info without autoplaying
+const initSt = STATIONS[0];
+document.getElementById('currentStation').textContent = initSt.name;
+document.getElementById('currentProgram').textContent = 'Pulsa ▶ para escuchar en directo';
+document.getElementById('stationArtwork').textContent = initSt.emoji;
+document.getElementById('stationArtwork').style.background = `linear-gradient(135deg, ${initSt.color}aa, #1a1a2ecc)`;
+document.getElementById('alarmHour').textContent = String(state.alarmH).padStart(2,'0');
+document.getElementById('alarmMin').textContent = String(state.alarmM).padStart(2,'0');
 </script>
 </body>
 </html>
